@@ -1,2 +1,2 @@
 # Restaurant-project-django
-this is Restaurant website pr
+this is StandBlog website project
