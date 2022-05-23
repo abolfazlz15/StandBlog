@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="heading-page header-text">
+        <section class="page-heading">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-content">
+                            <h4>Recent Posts</h4>
+                            <h2>Our Recent Blog Entries</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Banner Ends Here -->
+
+
+
+    <section class="blog-posts grid-system">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="all-blog-posts">
+                        <div class="row">
+                            {% if articles %}
+                                {% for articles in articles %}
+                                    <div class="col-lg-6">
+                                        <div class="blog-post">
+                                            <div class="blog-thumb">
+                                                <img src="{{ articles.image.url }}" alt="">
+                                            </div>
+                                            <div class="down-content">
+                                                <span>{{ articles.category.first }}</span>
+                                                <a href="{{ articles.get_absolute_url }}">
+                                                    <h4>{{ articles.title }}</h4>
+                                                </a>
+                                                <ul class="post-info">
+                                                    <li><a href="#">{{ articles.author }}</a></li>
+                                                    <li><a href="#">{{ articles.created }}</a></li>
+                                                    <li><a href="#">12 Comments</a></li>
+                                                </ul>
+                                                <p>{{ articles.body|truncatewords:"30" }}</p>
+                                                <div class="post-options">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <ul class="post-tags">
+                                                                <li><i class="fa fa-tags"></i></li>
+                                                                <li><a href="#">Best Templates</a>,</li>
+                                                                <li><a href="#">TemplateMo</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                NOT FOUND ARTICLES
+                            {% endif %}
+
+                            <!-- Pagination in blog list -->
+                            {% if articles.has_other_pages %}
+                                <div class="col-lg-12">
+                                    <ul class="page-numbers">
+                                        {% if articles.has_previous %}
+                                            <li><a href="?page={{ articles.previous_page_number }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}"><i
+                                                    class="fa fa-angle-double-left"></i></a></li>
+                                        {% endif %}
+                                        {% for page in articles.paginator.page_range %}
+                                            {% if articles.number == page %}
+                                                <li class="active"><a href="?page={{ page }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}">{{ page }}</a>
+                                                </li>
+                                            {% else %}
+                                                <li><a href="?page={{ page }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}">{{ page }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if articles.has_next %}
+                                            <li>
+                                                <a href="?page={{ articles.next_page_number }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}">
+                                                    <i class="fa fa-angle-double-right">
+                                                    </i></a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% include 'inc/sidebar.html' %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+<!-- <li class="active"><a href="#">2</a></li>
+<li><a href="#">3</a></li> -->

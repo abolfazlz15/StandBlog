@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>edit email</title>
+</head>
+<body>
+<div class="content">
+    <form id="contact" action="" method="post">
+        {% csrf_token %}
+        <div class="row">
+            {{ form }}
+        </div>
+        <input type="submit">
+    </form>
+</div>
+
+
+</body>
+</html>
