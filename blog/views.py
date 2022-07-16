@@ -1,17 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Article, Category, Comment
 from django.core.paginator import Paginator
-from django.contrib.auth.models import User
 
 
 def articleDetail(request, slug):
     article = get_object_or_404(Article, slug=slug)
-    
+
     if request.method == 'POST':
         parent_id = request.POST.get('parent_id')
         body = request.POST.get('body')
         Comment.objects.create(body=body, article=article, user=request.user, parent_id=parent_id)
-        
+
     return render(request, 'blog/details.html', context={'article': article})
 
 
