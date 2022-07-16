@@ -6,12 +6,18 @@ from django.core.paginator import Paginator
 def articleDetail(request, slug):
     article = get_object_or_404(Article, slug=slug)
 
+    number_of_comments  = article.comments.count() 
+
     if request.method == 'POST':
         parent_id = request.POST.get('parent_id')
         body = request.POST.get('body')
-        Comment.objects.create(body=body, article=article, user=request.user, parent_id=parent_id)
+        Comment.objects.create(body=body, article=article, user=request.user, parent_id=parent_id)  
 
-    return render(request, 'blog/details.html', context={'article': article})
+    context={
+        'article': article,
+        'number_of_comments': number_of_comments,
+        }
+    return render(request, 'blog/details.html', context)
 
 
 def blogList(request):

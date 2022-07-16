@@ -15,10 +15,19 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+class Tag(models.Model):
+    title = models.CharField(max_length=100)
+    created = models.DateField(auto_now_add=True)
+    publish = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
 
 class Article(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category, related_name='articles')
+    tag = models.ManyToManyField(Tag, related_name='articles')
     title = models.CharField(max_length=100)
     body = models.TextField()
     slug = models.SlugField(unique=True, blank=True)
@@ -52,11 +61,6 @@ class Article(models.Model):
     showImage.short_description = 'تصویر'
 
 
-
-class Tag(models.Model):
-    title = models.CharField(max_length=100)
-    created = models.DateField(auto_now_add=True)
-    publish = models.DateTimeField(auto_now=True)
 
 
 class Comment(models.Model):

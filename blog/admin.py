@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Article, Comment
+from .models import Category, Article, Comment, Tag
 from django.contrib import messages
 from django.utils.translation import ngettext
 
@@ -8,6 +8,8 @@ admin.site.site_header = 'SandBlog Admin Panel'
 
 admin.site.register(Comment)
 admin.site.register(Category)
+admin.site.register(Tag)
+
 
 class CommentInLine(admin.StackedInline): # for show comment in article detail (Django admin panel)
     model = Comment
@@ -17,7 +19,7 @@ class CommentInLine(admin.StackedInline): # for show comment in article detail (
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     # for show customization list objects
-    fields = ('title', 'author', 'category', 'body', 'image', 'status', 'published', 'time_publish', 'slug')
+    fields = ('title', 'author', 'category', 'tag', 'body', 'image', 'status', 'published', 'time_publish', 'slug')
     list_display = ('showImage', 'title', 'slug', 'author', 'published')
     list_filter = ('published', 'author', 'created')
     search_fields = ('title', 'body')
