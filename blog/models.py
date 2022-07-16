@@ -73,3 +73,13 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.body[:40]}'
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='likes')
+    created = models.DateTimeField(auto_now_add=True)
+
+        
+    def __str__(self):
+        return f'{self.user} - {self.article.title}'
