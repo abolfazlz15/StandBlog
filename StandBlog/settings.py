@@ -62,6 +62,7 @@ TEMPLATES = [
                 # my context processors
                 'context_processors.context_processors.recentArticles',
                 'context_processors.context_processors.category',
+                'context_processors.context_processors.tag',
 
             ],
         },

@@ -49,7 +49,8 @@
                                             <ul class="post-info">
                                                 <li><a href="#">{{ article.author }}</a></li>
                                                 <li><a href="#">{{ article.created }}</a></li>
-                                                <li><a href="#">12 Comments</a></li>
+                                                <li><a href="#">{{ article.comments.all.count }} Comments</a></li>
+                                                
                                             </ul>
                                             <p>{{ article.body|truncatewords:66 }}</p>
                                             <div class="post-options">
@@ -57,8 +58,12 @@
                                                     <div class="col-6">
                                                         <ul class="post-tags">
                                                             <li><i class="fa fa-tags"></i></li>
-                                                            <li><a href="#">Beauty</a>,</li>
-                                                            <li><a href="#">Nature</a></li>
+                                                            
+                                                            {% for tag in article.tag.all|slice:2 %}
+                                                                <li><a href="{% url 'blog:tag_detail' tag.id %}">{{ tag.title }}</a>,</li>
+                                            
+                                                            {% endfor %}
+
                                                         </ul>
                                                     </div>
                                                     <div class="col-6">

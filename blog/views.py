@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, render, get_object_or_404
-from .models import Article, Category, Comment, Like
 from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .models import Article, Category, Comment, Like, Tag
 
 
 def articleDetail(request, slug):
@@ -49,6 +50,17 @@ def categoryDetail(request, pk):
     return render(request, 'blog/blog.html', context={'articles': articles})
 
 
+def tagDetail(request, pk):
+    tag = get_object_or_404(Tag, id=pk)
+    articles = tag.articles.all()
+
+    paginator = Paginator(articles, 4)
+    page_number = request.GET.get('page')
+    articles = paginator.get_page(page_number)
+
+    return render(request, 'blog/blog.html', context={'articles': articles})   
+
+
 def searchBlog(request):
     search_form = request.GET.get('search_form')
     articles = Article.objects.filter(title__icontains=search_form)
@@ -56,6 +68,7 @@ def searchBlog(request):
     page_number = request.GET.get('page')
     articles = paginator.get_page(page_number)
     return render(request, 'blog/blog.html', context={'articles': articles})
+
 
 def likeArticle(request, slug, id):
     try:

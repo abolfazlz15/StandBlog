@@ -31,30 +31,31 @@
                     <div class="all-blog-posts">
                         <div class="row">
                             {% if articles %}
-                                {% for articles in articles %}
+                                {% for article in articles %}
                                     <div class="col-lg-6">
                                         <div class="blog-post">
                                             <div class="blog-thumb">
-                                                <img src="{{ articles.image.url }}" alt="">
+                                                <img src="{{ article.image.url }}" alt="">
                                             </div>
                                             <div class="down-content">
-                                                <span>{{ articles.category.first }}</span>
-                                                <a href="{{ articles.get_absolute_url }}">
-                                                    <h4>{{ articles.title }}</h4>
+                                                <span>{{ article.category.first }}</span>
+                                                <a href="{{ article.get_absolute_url }}">
+                                                    <h4>{{ article.title }}</h4>
                                                 </a>
                                                 <ul class="post-info">
-                                                    <li><a href="#">{{ articles.author }}</a></li>
-                                                    <li><a href="#">{{ articles.created }}</a></li>
-                                                    <li><a href="#">12 Comments</a></li>
+                                                    <li><a href="#">{{ article.author }}</a></li>
+                                                    <li><a href="#">{{ article.created }}</a></li>
+                                                    <li><a href="#">{{ article.comments.all.count }} Comments</a></li>
                                                 </ul>
-                                                <p>{{ articles.body|truncatewords:"30" }}</p>
+                                                <p>{{ article.body|truncatewords:"30" }}</p>
                                                 <div class="post-options">
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <ul class="post-tags">
                                                                 <li><i class="fa fa-tags"></i></li>
-                                                                <li><a href="#">Best Templates</a>,</li>
-                                                                <li><a href="#">TemplateMo</a></li>
+                                                                {% for tag in article.tag.all %}
+                                                                <li><a href="{% url 'blog:tag_detail' tag.id %}">{{ tag.title }}</a>,</li>
+                                                                {% endfor %}
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -68,15 +69,15 @@
                             {% endif %}
 
                             <!-- Pagination in blog list -->
-                            {% if articles.has_other_pages %}
+                            {% if article.has_other_pages %}
                                 <div class="col-lg-12">
                                     <ul class="page-numbers">
-                                        {% if articles.has_previous %}
-                                            <li><a href="?page={{ articles.previous_page_number }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}"><i
+                                        {% if article.has_previous %}
+                                            <li><a href="?page={{ article.previous_page_number }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}"><i
                                                     class="fa fa-angle-double-left"></i></a></li>
                                         {% endif %}
-                                        {% for page in articles.paginator.page_range %}
-                                            {% if articles.number == page %}
+                                        {% for page in article.paginator.page_range %}
+                                            {% if article.number == page %}
                                                 <li class="active"><a href="?page={{ page }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}">{{ page }}</a>
                                                 </li>
                                             {% else %}
@@ -84,9 +85,9 @@
                                                 </li>
                                             {% endif %}
                                         {% endfor %}
-                                        {% if articles.has_next %}
+                                        {% if article.has_next %}
                                             <li>
-                                                <a href="?page={{ articles.next_page_number }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}">
+                                                <a href="?page={{ article.next_page_number }}{% if request.GET.search_form %}&search_form={{ request.GET.search_form }}{% endif %}">
                                                     <i class="fa fa-angle-double-right">
                                                     </i></a>
                                             </li>

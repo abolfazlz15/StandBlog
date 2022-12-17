@@ -1,4 +1,4 @@
-from blog.models import Article, Category
+from blog.models import Article, Category, Tag
 
 
 def recentArticles(request):
@@ -11,3 +11,9 @@ def category(request):
     categories = Category.objects.all()[:5]
 
     return {'categories': categories}
+
+
+def tag(request):
+    tags = Tag.objects.all()[:5]
+
+    return {'tags': tags}

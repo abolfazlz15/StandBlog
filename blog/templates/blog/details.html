@@ -34,13 +34,13 @@
                                 </div>
                                 <div class="down-content">
                                     <span>{{ article.category.all.first }}</span>
-                                    <a href="post-details.html">
+                                    <a href="">
                                         <h4>{{ article.title }}</h4>
                                     </a>
                                     <ul class="post-info">
                                         <li><a href="#">{{ article.author }}</a></li>
                                         <li><a href="#">{{ article.created }}</a></li>
-                                        <li><a href="#">10 Comments</a></li>
+                                        <li><a href="#">{{ article.comments.all.count }} comments</a></li>
                                     </ul>
                                     <p>{{ article.body }}</p>
                                     <div class="post-options">
@@ -48,8 +48,8 @@
                                             <div class="col-6">
                                                 <ul class="post-tags">
                                                     <li><i class="fa fa-tags"></i></li>
-                                                    {% for tag in article.tag.all|slice:3 %}
-                                                    <li><a href="#">{{ tag.title }}</a>,</li>
+                                                    {% for tag in article.tag.all %}
+                                                    <li><a href="{% url 'blog:tag_detail' tag.id %}">{{ tag.title }}</a>,</li>
                                                     {% endfor %}
                                                 </ul>
                                             </div>
@@ -109,7 +109,7 @@
                                         {% for reply in comment.replies.all %}
                                         <li class="replied">
                                             <div class="author-thumb">
-                                                <img src="{% static 'images/comment-author-02.jpg' %}" alt="">
+                                                <img src="{% static 'images/comment-author-01.jpg' %}" alt="">
                                             </div>
                                             <div class="right-content">
                                                 <h4>{{ reply.user }}<span>{{ reply.created_at }}</span>
